@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky - {{ user.username }}{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=256) }}">
+    <div class="profile-header">
+        <h1>{{ user.username }}</h1>
+        {% if user.name or user.location %}
+            <p>
+                {% if user.name %}{{ user.name }}{% endif %}
+                <br>
+                {% if user.location %}
+                    来自<a href="http://maps.google.com/?q={{ user.location }}">{{ user.location }}</a>
+                {% endif %}
+            </p>
+        {% endif %}
+        <br>
+        {% if user.about_me %}
+            <p>
+                <h4>关于{{ user.username }}:</h4>
+                {{ user.about_me }}
+            </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

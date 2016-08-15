@@ -1,5 +1,19 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
 
 {% block page_content %}
-
+    <div class="page-header">
+        <h1>你好,
+            {% if current_user.is_authenticated %}
+                {{ current_user.username }}
+            {% else %}世界
+            {% endif %}！
+        </h1>
+    </div>
+    {% include '_posts.html' %}
+    {% if pagination %}
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination, '.index') }}
+    </div>
+    {% endif %}
 {% endblock %}

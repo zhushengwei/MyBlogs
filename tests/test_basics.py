@@ -1,6 +1,6 @@
 import unittest
 from flask import current_app
-from app.models import User
+from app.models import User, AnonymousUser, Role, Permission
 from app import create_app, db
 
 class BasicsTestCase(unittest.TestCase):
@@ -40,3 +40,13 @@ class PasswordTestCase(unittest.TestCase):
         u = User(password = 'cat')
         u1 = User(password = 'cat')
         self.assertTrue(u.password_hash != u1.password_hash)
+
+    def test_roles_and_permissions(self):
+        Role.insert_roles()
+        u = User(email='shengweizhu@qq.com', password='cat')
+        self.assertTrue(u.can(Permission.WRITE_ARTICLES))
+        self.assertFalse(u.can(Permission.MODERATE_COMMENTS))
+
+    def test_anonymous_user(self):
+        u = AnonymousUser()
+        self.assertFalse(u.can(Permission.FOLLOW))
